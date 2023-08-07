@@ -83,6 +83,11 @@ String f = json.toString();
      String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload3.json";
    JSONObject js = Reuse.get(file);
    JsonPath j = Reuse.getJsonPath(js.toString());
-   System.out.println(j.getInt("courses.size()"));
+   int count = j.getInt("courses.size()");
+   for (int i = 0; i < count; i++) {
+    System.out.println(j.getString("courses["+i+"].title"));
+    System.out.println(j.getInt("courses["+i+"].price"));
+    
+   }
   }
 }
