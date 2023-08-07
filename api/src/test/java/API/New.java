@@ -41,7 +41,6 @@ String f = json.toString();
     JsonPath js = new JsonPath(response);
     System.out.println(js.getString("place_id"));
     file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload2.json";
-  //add place_id to payload2.json
   parser = new JSONParser();      
         fileReader = new FileReader(file);
                 json = (JSONObject) parser.parse(fileReader);
