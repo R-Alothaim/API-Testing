@@ -34,14 +34,14 @@ public class New {
     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload.json";
                 JSONObject json = Reuse.get(file);
 String f = json.toString();
+System.out.println(f);
    String response = given().queryParam("key", "qaclick123").header("Content-Type","application/json").body(f).when().post("/maps/api/place/add/json").then().assertThat().statusCode(200).body("scope", equalTo("APP")).header("Server", "Apache/2.4.52 (Ubuntu)").extract().response().asString();
    System.out.println(response);
     JsonPath js = new JsonPath(response);
     System.out.println(js.getString("place_id"));
     file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload2.json";
-  parser = new JSONParser();      
-        fileReader = new FileReader(file);
-                json = (JSONObject) parser.parse(fileReader);
+ 
+                json = (JSONObject) Reuse.get(file);
                 FileWriter fileWriter = new FileWriter(file,false);
                 fileWriter.write(json.toString().replace(json.get("place_id").toString(), js.getString("place_id")));
                 fileWriter.close();
