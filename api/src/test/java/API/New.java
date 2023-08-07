@@ -14,6 +14,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -28,7 +29,7 @@ public class New {
   public void afterTest() {
   }
 
-  @Test
+  @Test(priority = 1)
   public void add() throws  IOException, ParseException, org.json.simple.parser.ParseException {
     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload.json";
     JSONParser parser = new JSONParser();      
@@ -39,8 +40,16 @@ String f = json.toString();
    System.out.println(response);
     JsonPath js = new JsonPath(response);
     System.out.println(js.getString("place_id"));
-  }
-  @Test
+    file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload2.json";
+  //add place_id to payload2.json
+  parser = new JSONParser();      
+        fileReader = new FileReader(file);
+                json = (JSONObject) parser.parse(fileReader);
+                FileWriter fileWriter = new FileWriter(file,false);
+                fileWriter.write(json.toString().replace(json.get("place_id").toString(), js.getString("place_id")));
+                fileWriter.close();
+}
+  @Test(priority = 2)
   public void update() throws IOException, org.json.simple.parser.ParseException{
     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload2.json";
     JSONParser parser = new JSONParser();      
