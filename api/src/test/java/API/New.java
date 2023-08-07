@@ -32,9 +32,7 @@ public class New {
   @Test(priority = 1)
   public void add() throws  IOException, ParseException, org.json.simple.parser.ParseException {
     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload.json";
-    JSONParser parser = new JSONParser();      
-        FileReader fileReader = new FileReader(file);
-                JSONObject json = (JSONObject) parser.parse(fileReader);
+                JSONObject json = Reuse.get(file);
 String f = json.toString();
    String response = given().queryParam("key", "qaclick123").header("Content-Type","application/json").body(f).when().post("/maps/api/place/add/json").then().assertThat().statusCode(200).body("scope", equalTo("APP")).header("Server", "Apache/2.4.52 (Ubuntu)").extract().response().asString();
    System.out.println(response);
@@ -67,9 +65,7 @@ given().log().all().queryParam("key", "qaclick123").header("Content-Type","appli
   @Test
   public void test() throws IOException, org.json.simple.parser.ParseException{
     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload3.json";
-    JSONParser parser = new JSONParser();      
-        FileReader fileReader = new FileReader(file);
-                JSONObject json = (JSONObject) parser.parse(fileReader);
+                JSONObject json = Reuse.get(file);
 String f = json.toString();
     JsonPath js = Reuse.getJsonPath(f);
   int count = js.getInt("courses.size()");
@@ -81,5 +77,12 @@ String f = json.toString();
   int purchaseAmount = js.getInt("dashboard.purchaseAmount");
   Assert.assertEquals(price, purchaseAmount);
     
+  }
+  @Test
+  public void playaround() throws IOException, org.json.simple.parser.ParseException{
+     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload3.json";
+   JSONObject js = Reuse.get(file);
+   JsonPath j = Reuse.getJsonPath(js.toString());
+   System.out.println(j.getInt("courses.size()"));
   }
 }
