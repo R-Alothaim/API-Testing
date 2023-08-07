@@ -89,5 +89,18 @@ String f = json.toString();
     System.out.println(j.getInt("courses["+i+"].price"));
     
    }
+
   }
+  @Test
+  public void playaround2() throws IOException, org.json.simple.parser.ParseException{
+     String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload.json";
+   JSONObject js = Reuse.get(file);
+   String response = given().queryParam("key", "qaclick123").header("Content-Type","application/json").body(js.toString()).when().post("/maps/api/place/add/json").then().assertThat().statusCode(200).body("scope", equalTo("APP")).header("Server", "Apache/2.4.52 (Ubuntu)").extract().response().asString();
+    System.out.println(response);
+   JsonPath j = Reuse.getJsonPath(response);
+   String place_id = j.getString("place_id");
+    System.out.println(j.getString("place_id"));
+    String resonse2 = given().queryParam("key", "qaclick123").queryParam("place_id", place_id).when().get("/maps/api/place/get/json").then().assertThat().statusCode(200).extract().response().asString();
+    System.out.println(resonse2);
+  } 
 }
