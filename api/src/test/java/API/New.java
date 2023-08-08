@@ -155,10 +155,10 @@ FileUtils.writeStringToFile(jsonFile, resultingJson);
 // JsonPath js = Reuse.getJsonPath(f);
 
 
-//read json
+//read json file
  JSONObject json = Reuse.get(file);
-String f = json.toString();
-// JsonPath js = Reuse.getJsonPath(f);
+ 
+// JsonPath js = Reuse.getJsonPath(json.toString(););
     System.out.println(js.getString("dashboard.purchaseAmount"));
 
 or
