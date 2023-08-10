@@ -11,6 +11,8 @@ import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
 import junit.framework.Assert;
+import pojo.Api;
+import pojo.GetCourse;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -29,6 +31,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
@@ -217,9 +222,15 @@ public class New {
       System.out.println(r2);
 
     }
-
   }
+@Test
+public void playaround4() throws IOException {
+
+		
+	}
+
 }
+
 /*
  * 
  * 
