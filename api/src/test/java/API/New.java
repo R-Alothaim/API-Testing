@@ -11,8 +11,9 @@ import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
 import junit.framework.Assert;
-import pojo.Api;
-import pojo.GetCourse;
+import pojo.category;
+import pojo.pet;
+import pojo.tags;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -33,6 +34,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -42,8 +44,9 @@ import org.json.simple.parser.JSONParser;
 public class New {
   @BeforeMethod
   public void beforeTest() {
-    RestAssured.baseURI = "https://rahulshettyacademy.com";
+    //RestAssured.baseURI = "https://rahulshettyacademy.com";
     // RestAssured.baseURI="http://216.10.245.166";
+RestAssured.baseURI="https://petstore.swagger.io/v2";
   }
 
   @AfterMethod
@@ -160,74 +163,52 @@ public class New {
     System.out.println(js.getString("dashboard.purchaseAmount"));
   }
 
-  @Test
-  public void Oauth() {
-    {
 
-      // TODO Auto-generated method stub
-
-      String url = "https://rahulshettyacademy.com/getCourse.php?state=verifyfjdss&code=4%2FvAHBQUZU6o4WJ719NrGBzSELBFVBI9XbxvOtYpmYpeV47bFVExkaxWaF_XR14PHtTZf7ILSEeamywJKwo_BYs9M&scope=email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&session_state=0c32992f0d47e93d273922018ade42d1072b9d1f..a35c&prompt=none#";
-
-      String partialcode = url.split("code=")[1];
-
-      String code = partialcode.split("&scope")[0];
-
-      System.out.println(code);
-
-      String response =
-
-          given()
-
-              .urlEncodingEnabled(false)
-
-              .queryParams("code", code)
-
-              .queryParams("client_id", "692183103107-p0m7ent2hk7suguv4vq22hjcfhcr43pj.apps.googleusercontent.com")
-
-              .queryParams("client_secret", "erZOWM9g3UtwNRj340YYaK_W")
-
-              .queryParams("grant_type", "authorization_code")
-
-              .queryParams("state", "verifyfjdss")
-
-              .queryParams("session_state", "ff4a89d1f7011eb34eef8cf02ce4353316d9744b..7eb8")
-
-              // .queryParam("scope",
-              // "email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email")
-
-              .queryParams("redirect_uri", "https://rahulshettyacademy.com/getCourse.php")
-
-              .when().log().all()
-
-              .post("https://www.googleapis.com/oauth2/v4/token").asString();
-
-      // System.out.println(response);
-
-      JsonPath jsonPath = new JsonPath(response);
-
-      String accessToken = jsonPath.getString("access_token");
-
-      System.out.println(accessToken);
-
-      String r2 = given().contentType("application/json").
-
-          queryParams("access_token", accessToken).expect().defaultParser(Parser.JSON)
-
-          .when()
-
-          .get("https://rahulshettyacademy.com/getCourse.php")
-
-          .asString();
-
-      System.out.println(r2);
-
-    }
-  }
 @Test
-public void playaround4() throws IOException {
+public void addPojo() throws IOException {
+pet petMain = new pet();
+category categoryValues = new category();
+tags tagsValues = new tags();
+String[] r = {"rayan","Nasser"};
+List<tags> LinkedListForTags= new LinkedList<tags>();
+petMain.setPhotoUrls(r);
+categoryValues.setId(33);
+categoryValues.setName("catagory");
+tagsValues.setId(33);
+tagsValues.setName("LinkedListForTags");
+LinkedListForTags.add(tagsValues);
+petMain.setCategory(categoryValues);
+petMain.setTags(LinkedListForTags);
+petMain.setId(33);
+petMain.setName("rayan");
+petMain.setStatus("available");
 
-		
+String file = "C:\\Users\\RayanAlOthaim\\OneDrive - JODAYN\\Documents\\VSC\\API testing\\Proj0\\api\\src\\test\\java\\Payload\\payload4.json";
+String p2 = given().header("Content-Type", "application/json")
+        .body(petMain).when().post("/pet").then()
+        .assertThat().log().all(DEFAULT_URL_ENCODING_ENABLED).statusCode(200).extract().response().asString();
+
 	}
+  @Test
+  public void getPojo(){
+    String get = given().param("Content-Type", "application/json")
+        .when().get("/pet/"+"33").then().assertThat().log().all().statusCode(200).extract().response()
+        .asString();
+  }
+  @Test
+  public void getPojoSpecific() throws IOException {
+   
+     pet p2 = given().expect().defaultParser(Parser.JSON).when().get("/pet/"+"33").as(pet.class);
+
+    System.out.println(p2.getName());
+  }
+  @Test
+  public void getPojoSpecific2() throws IOException {
+   
+     pet p2 = given().expect().defaultParser(Parser.JSON).when().get("/pet/"+"33").as(pet.class);
+
+    System.out.println(p2.getTags().get(0).getName());
+  }
 
 }
 
